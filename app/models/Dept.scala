@@ -9,13 +9,13 @@ case class Dept(id: Long, name: String)
 
 object Dept extends DAO[Dept,Long] {
 
-  override val key = Field[Long]("id", "id", updates = false)
+  override val key = Column[Long]("id", "id", updates = false)
   override val table: String = "dept"
-  override val columns: List[Field[_]] = List(
-    Field[String]("name", "name")
+  override val columns: List[Column[_]] = List(
+    Column[String]("name", "name")
   )
-  override val searchColumns: List[Field[_]] = List(
-    Field[String]("name", "name")
+  override val searchColumns: List[Column[_]] = List(
+    Column[String]("name", "name")
   )
 
   override def parser: RowParser[Dept] = {

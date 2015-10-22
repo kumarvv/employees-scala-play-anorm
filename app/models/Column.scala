@@ -5,13 +5,13 @@ package models
   *
   * @tparam A Field Data Type
   */
-class Field[A](val name: String,
-               val dbName: String,
-               val nk: Boolean,
-               val inserts: Boolean = true,
-               val updates: Boolean = true,
-               val generatedValue: Boolean = true,
-               val expr: Option[String] = None) {
+class Column[A](val name: String,
+                val dbName: String,
+                val nk: Boolean,
+                val inserts: Boolean = true,
+                val updates: Boolean = true,
+                val generatedValue: Boolean = true,
+                val expr: Option[String] = None) {
 
   val queryExpr = (if (expr.isDefined) "(" + expr.get + ")" else dbName) + " As " + name
   val updateExpr = dbName + " = {" + name + "}"
@@ -19,14 +19,14 @@ class Field[A](val name: String,
   def asType(value: Any): A = value.asInstanceOf[A]
 }
 
-object Field {
+object Column {
   def apply[A](name: String,
                dbName: String = null,
                nk: Boolean = false,
                inserts: Boolean = true,
                updates: Boolean = true,
                generatedValue: Boolean = true,
-               expr: Option[String] = None): Field[A] = {
-    new Field[A](name, Option(dbName).getOrElse(name), nk, inserts, updates, generatedValue, expr)
+               expr: Option[String] = None): Column[A] = {
+    new Column[A](name, Option(dbName).getOrElse(name), nk, inserts, updates, generatedValue, expr)
   }
 }

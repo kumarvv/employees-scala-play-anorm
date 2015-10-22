@@ -9,17 +9,17 @@ case class Emp(id: Long, name: String, deptId: Option[Long] = None, deptName: Op
 
 object Emp extends DAO[Emp,Long] {
 
-  override val key = Field[Long]("id", "id", updates = false)
+  override val key = Column[Long]("id", "id", updates = false)
   override val table: String = "emp"
-  override val columns: List[Field[_]] = List(
-    Field[String]("name", "name"),
-    Field[String]("deptId", "dept_id"),
-    Field[String]("deptName", "dept_name", inserts = false, updates = false, expr = Some("select d.name from dept d where d.id = emp.dept_id"))
+  override val columns: List[Column[_]] = List(
+    Column[String]("name", "name"),
+    Column[String]("deptId", "dept_id"),
+    Column[String]("deptName", "dept_name", inserts = false, updates = false, expr = Some("select d.name from dept d where d.id = emp.dept_id"))
   )
-  override val searchColumns: List[Field[_]] = List(
-    Field[String]("name", "name"),
-    Field[String]("deptId", "dept_id"),
-    Field[String]("deptName", "dept_name")
+  override val searchColumns: List[Column[_]] = List(
+    Column[String]("name", "name"),
+    Column[String]("deptId", "dept_id"),
+    Column[String]("deptName", "dept_name")
   )
 
   override def parser: RowParser[Emp] = {

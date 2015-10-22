@@ -16,11 +16,11 @@ import play.api.Play.current
   */
 trait DAO[T,K] {
   val table: String
-  val key: Field[K] = Field[K]("id", updates = false)
-  val columns: List[Field[_]]
-  val orderBy: List[Field[_]] = Nil
+  val key: Column[K] = Column[K]("id", updates = false)
+  val columns: List[Column[_]]
+  val orderBy: List[Column[_]] = Nil
   val limit: Int = 100
-  val searchColumns: List[Field[_]] = Nil
+  val searchColumns: List[Column[_]] = Nil
 
   def parser: RowParser[T]
   def construct(id: Option[K], values: Map[String,Any]): Option[T]
@@ -42,8 +42,8 @@ trait DAO[T,K] {
   /**
     * build sqls for various dml operations
     */
-  lazy val insertColumns: List[Field[_]] = (if (!key.generatedValue && key.inserts) List(key) else Nil) ::: columns.filter(_.inserts)
-  lazy val colsMap: Map[String,Field[_]] = columns.map(c => c.name -> c).toMap
+  lazy val insertColumns: List[Column[_]] = (if (!key.generatedValue && key.inserts) List(key) else Nil) ::: columns.filter(_.inserts)
+  lazy val colsMap: Map[String,Column[_]] = columns.map(c => c.name -> c).toMap
   lazy val colsNames: List[String] = columns.map(_.name)
 
   lazy val sqlAll =
